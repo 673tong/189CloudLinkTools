@@ -27,7 +27,7 @@
                 load: function() {
                     var temp = [];
                     this.setState({isLoading: true});
-                    $.getJSON(this.state.folderId == 0 ? '/files' : '/files/' + this.state.folderId, function(data){
+                    $.getJSON(this.state.folderId == 0 ? '/folder' : '/folder/' + this.state.folderId, function(data){
                         this.setState({isLoading: false});
                         if(this.state.folderId != 0){
                             temp.push({
@@ -72,7 +72,7 @@
                                     <tr>
                                         <th width="20%"><span style={{float:'left'}}>文件名称</span></th>
                                         <th width="20%"><span style={{float:'left'}}>文件MD5</span></th>
-                                        <th width="20%"><span style={{float:'left'}}>直连地址(302)</span></th>
+                                        <th width="20%"><span style={{float:'left'}}>地址 / 文件夹</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -99,7 +99,7 @@
                             }
                             <td>{this.props.item.md5}</td>
                             <td>
-                                {this.props.item.folder ? '' : window.location.protocol + '//' + document.domain + (location.port ? ':' + location.port : '') + '/link/' + this.props.item.id}
+                                {this.props.item.folder ? this.props.item.id : window.location.protocol + '//' + document.domain + (location.port ? ':' + location.port : '') + '/link/' + this.props.item.id}
                             </td>
                         </tr>
                     )

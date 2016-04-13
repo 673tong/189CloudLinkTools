@@ -1,6 +1,7 @@
 var express       = require('express');
 var logger        = require('morgan');
 var superagent    = require('superagent');
+var bodyParser    = require('body-parser');
 var fs            = require('fs');
 var app           = express();
 
@@ -14,7 +15,8 @@ setInterval(() => {
 }, 1000);
 
 app.use(logger('dev'));
-app.use(require('body-parser')());
+app.use(bodyParser.urlencoded({ extended: false }))  
+app.use(bodyParser.json())  
 app.use((req, res, next) => {
     req.config     = require('./config.json');
     req.getApiData = (url, data, callback) => {
@@ -94,14 +96,15 @@ app.get('/link/:fileId', (req, res) => {
     });
 });
 
-app.get('/files/', (req, res) => {
-    req.getApiData('http://api.189.cn/ChinaTelecom/listFiles.action', {}, (err, result) => {
+app.get('/folder/', (req, res) => {
+    // 天翼云API出现问题，会暴露全部文件夹和文件 所以在此加入设置默认文件夹ID
+    req.getApiData('http://api.189.cn/ChinaTelecom/listFiles.action', req.config.defaultFolder == -1 ? {} : {folderId: req.config.defaultFolder}, (err, result) => {
         if(err) return res.status(503).send(err);
         res.json(result);
     })
 });
 
-app.get('/files/:folderId', (req, res) => {
+app.get('/folder/:folderId', (req, res) => {
     var folderId = req.params.folderId;
     req.getApiData('http://api.189.cn/ChinaTelecom/listFiles.action', {folderId: folderId}, (err, result) => {
         if(err) return res.status(503).send(err);
@@ -111,5 +114,5 @@ app.get('/files/:folderId', (req, res) => {
 
 app.listen(require('./config.json').port, (error) =>  {
     if(error) return console.error('监听端口发生错误:', error);
-    console.log('服务已开启');
+    console.log('服务已开启 监听端口:' + require('./config.json').port);
 });
