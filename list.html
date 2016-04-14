@@ -50,7 +50,7 @@
                     }.bind(this));
                 },
                 
-                toFolder(folderId, folderName){
+                toFolder: function(folderId, folderName){
                     if(folderName == '..'){
                         var top = this.state.folderArray.pop();
                         this.state.folderId = this.state.folderArray.length + 1 == 1 ? 0 : top;
