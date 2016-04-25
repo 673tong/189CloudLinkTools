@@ -93,7 +93,7 @@
                         <tr>
                             {
                                 this.props.item.folder ?
-                                    <td><a href="javasctipt:;" onClick={this.props.toFolder.bind(this, this.props.item.id, this.props.item.name)}>{this.props.item.name + '/'}</a></td>
+                                    <td><a href="javascript:void(0);" onClick={this.props.toFolder.bind(this, this.props.item.id, this.props.item.name)}>{this.props.item.name + '/'}</a></td>
                                 :
                                     <td>{this.props.item.name}</td>
                             }
