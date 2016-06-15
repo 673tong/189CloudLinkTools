@@ -47,10 +47,9 @@ app.use((req, res, next) => {
 
 // OAuth 重定向
 app.get('/auth', (req, res) => {
-   var args = `response_type=token&app_id=${req.config.appKey}&
-               app_secret=${req.config.appSecret}&redirect_uri=${req.config.callbackUrl}`;
-   var authUrl  = `https://oauth.api.189.cn/emp/oauth2/v3/authorize?${args}`;
-   res.redirect(authUrl);
+    var args = `response_type=token&app_id=${req.config.appKey}&app_secret=${req.config.appSecret}&redirect_uri=${req.config.callbackUrl}`;
+    var authUrl  = `https://oauth.api.189.cn/emp/oauth2/v3/authorize?${args}`;
+    res.send(`<a href="${authUrl}">跳转至天翼云</a>`);
 });
 
 // OAuth 回调
